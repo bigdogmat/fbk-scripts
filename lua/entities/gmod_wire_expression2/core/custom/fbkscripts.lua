@@ -31,7 +31,7 @@ do
   e2function void suppressChat()
     if not IsValid(self.player) then return end -- If they left and E2 is still running
 
-    -- They they aren't mod and aren't the player who triggered the chat event
+    -- They aren't mod and aren't the player who triggered the chat event
     if not self.player:CheckGroup "moderator" and self.player ~= hidePly then return end
 
     chipHideChat = true
