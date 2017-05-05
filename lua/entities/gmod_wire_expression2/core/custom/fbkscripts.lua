@@ -26,13 +26,13 @@ Try to hack together a hideChat that works on other players into the default sys
 do
   local chipHideChat, hidePly
 
-  __e2setcost(3) -- Not much here
+  __e2setcost(3)
 
   e2function void suppressChat()
     if not IsValid(self.player) then return end -- If they left and E2 is still running
 
     -- They aren't mod and aren't the player who triggered the chat event
-    if not self.player:CheckGroup "moderator" and self.player ~= hidePly then return end
+    if not self.player:CheckGroup "moderator" and not self.player:CheckGroup "admin" and self.player ~= hidePly then return end
 
     chipHideChat = true
   end
