@@ -3,21 +3,45 @@ Register extension
 -----------------------------------------------------------------------------]]
 E2Lib.RegisterExtension("fbkscripts", true)
 
---[[---------------------------------------------------------------------------
-Utility function cost
------------------------------------------------------------------------------]]
+-- Seems good
 __e2setcost(10)
 
+-- Is entity valid and is it a player
+local function validPlayer(ply)
+  return IsValid(ply) and ply:IsPlayer()
+end
+
 --[[---------------------------------------------------------------------------
-Name:   uTimeTotalTime
-Type:   method - entity
-Return: number
+Returns the players total play time
 -----------------------------------------------------------------------------]]
 e2function number entity:uTimeTotalTime()
-  if not IsValid(this) then return 0 end
-  if not this:IsPlayer() then return 0 end
-
+  if not validPlayer(this) then return 0 end
   return this:GetUTimeTotalTime()
+end
+
+--[[---------------------------------------------------------------------------
+Color functions
+-----------------------------------------------------------------------------]]
+do
+  local function normalizedColorToE2Color(col)
+    return {col.r * 255, col.g * 255, col.b * 255}
+  end
+
+  --[[---------------------------------------------------------------------------
+  Returns the players color
+  -----------------------------------------------------------------------------]]
+  e2function vector entity:getPlayerColor()
+    if not validPlayer(this) then return {0, 0, 0} end
+    return normalizedColorToE2Color(this:GetPlayerColor())
+  end
+
+  --[[---------------------------------------------------------------------------
+  Returns the players weapon color
+  -----------------------------------------------------------------------------]]
+  e2function vector entity:getWeaponColor()
+    if not validPlayer(this) then return {0, 0, 0} end
+    return normalizedColorToE2Color(this:GetWeaponColor())
+  end
 end
 
 --[[---------------------------------------------------------------------------
@@ -27,7 +51,6 @@ do
   local chipHideChat, hidePly
 
   __e2setcost(3)
-
   e2function void suppressChat()
     if not IsValid(self.player) then return end -- If they left and E2 is still running
 
